@@ -13,8 +13,8 @@ export default function App() {
   return (
     <NavigationContainer>
     <Stack.Navigator>
-      {/* <Stack.Screen options = {{headerShows: false}} name="Login" component={LoginScreen} /> */}
-      <Stack.Screen options = {{headerShows: false}} name="Map" component={MapScreen} />
+      <Stack.Screen options = {{headerShown:false}} name="Login" component={LoginScreen} />
+      {/* <Stack.Screen options = {{headerShows: false}} name="Map" component={MapScreen} /> */}
     </Stack.Navigator>
   </NavigationContainer>
   
