@@ -8,10 +8,8 @@ function RegisterScreen  ({navigation}) {
     const [username, setusername]  = useState('')
     const [password, setPassword]  = useState('')
     
-    const handleRegister= () =>{
-    
-       
-      fetch("http://localhost:8000/register",{
+    let handleRegister= () =>{
+      fetch("http://10.0.2.2:8000/user/signup",{
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -22,13 +20,14 @@ function RegisterScreen  ({navigation}) {
             password
         })
       })
-      .then(res=>res.json())
+      .then(res=>res.text())
       .then( data=>{
         console.log(data);
+        
       }).catch(error =>console.log(error))
       
     }
-
+  
   return (
    <KeyboardAvoidingView
      style={styles.container}
