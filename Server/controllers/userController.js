@@ -25,7 +25,7 @@ const loginUser = async(req, res) => {
     if (user instanceof passanger)
         role  = 'Passanger'
 
-    const token = jwt.sign({_id: user._id, role: role}, process.env.TOKEN_SECRET)
+    const token = jwt.sign({_id: user._id, role: role, username: username, email: user.email}, process.env.TOKEN_SECRET)
 
     try{
         res.header('auth-token',token).status(200).send(token);

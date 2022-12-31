@@ -3,9 +3,12 @@ import React, { useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import RegisterScreen from './RegisterScreen';
 import jwt_decode from "jwt-decode";
+import {Context} from '../App'
+import { useContext } from 'react';
 const Stack = createNativeStackNavigator();
 function LoginScreen ({navigation}) {
 
+    const context = useContext(Context); 
     const [username, setusername]  = useState('')
     const [password, setPassword]  = useState('')
     
@@ -25,11 +28,16 @@ function LoginScreen ({navigation}) {
         console.log(data);
         const j = jwt_decode(data)
         const role = j.role
+        
+        context.setloginDetails(j);
         if(role == "Passanger")
         {
-          navigation.navigate('Map')
+          navigation.navigate('ClientSearch')
         }
-        
+        if(role == "Driver")
+        {
+          navigation.navigate('Driver')
+        }
       }).catch(error =>console.error(error))
       
     }
