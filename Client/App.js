@@ -6,11 +6,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MapScreen from './screens/MapScreen';
 import LoginScreen from './screens/LoginScreen';
 import ClientSearchScreen from './screens/ClientSearchScreen';
-import NavBar from './Components/NavBar';
+import NavBar from './Client/Components/NavBar';
 import DriverScreen from './screens/DriverScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import NotYetImplemented from './screens/NotYetImplemented';
-import AccountScreen from './screens/AccountScreen';
+import AccountScreen from './Client/screens/AccountScreen';
 
 const Stack = createNativeStackNavigator();
 
