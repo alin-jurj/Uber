@@ -2,18 +2,36 @@ import { KeyboardAvoidingView,ImageBackground, StyleSheet, Text, TextInput, Touc
 import React, { useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import RegisterScreen from './RegisterScreen';
+import jwt_decode from "jwt-decode";
 const Stack = createNativeStackNavigator();
 function LoginScreen ({navigation}) {
 
     const [username, setusername]  = useState('')
     const [password, setPassword]  = useState('')
     
-    const handleLogin= () =>{
-      fetch("http://10.0.2.2:8000")
-      .then(res=>res.json())
-      .then( data=>{
-        console.log(data)
+    let handleLogin = () =>{
+      fetch("http://10.0.2.2:8000/user/signin",{
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+            username,
+            password
+        })
       })
+      .then(res=>res.text())
+      .then( data=>{
+        console.log(data);
+        const j = jwt_decode(data)
+        const role = j.role
+        if(role == "Passanger")
+        {
+          navigation.navigate('Map')
+        }
+        
+      }).catch(error =>console.error(error))
+      
     }
     
 
