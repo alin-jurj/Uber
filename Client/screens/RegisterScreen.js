@@ -1,40 +1,33 @@
 import { KeyboardAvoidingView,ImageBackground, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import RegisterScreen from './RegisterScreen';
-import jwt_decode from "jwt-decode";
-const Stack = createNativeStackNavigator();
-function LoginScreen ({navigation}) {
 
+
+function RegisterScreen  ({navigation}) {
+    
+    const [email, setEmail]  = useState('')
     const [username, setusername]  = useState('')
     const [password, setPassword]  = useState('')
     
-    let handleLogin = () =>{
-      fetch("http://10.0.2.2:8000/user/signin",{
+    let handleRegister= () =>{
+      fetch("http://10.0.2.2:8000/user/signup",{
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body:JSON.stringify({
             username,
+            email,
             password
         })
       })
       .then(res=>res.text())
       .then( data=>{
         console.log(data);
-        const j = jwt_decode(data)
-        const role = j.role
-        if(role == "Passanger")
-        {
-          navigation.navigate('Map')
-        }
         
-      }).catch(error =>console.error(error))
+      }).catch(error =>console.log(error))
       
     }
-    
-
+  
   return (
    <KeyboardAvoidingView
      style={styles.container}
@@ -48,6 +41,12 @@ function LoginScreen ({navigation}) {
           onChangeText={text => setusername(text)}
         style = {styles.input}
         />
+        <TextInput
+          placeholder='Email'
+          value = {email}
+          onChangeText={text => setEmail(text)}
+        style = {styles.input}
+        />
          <TextInput
           placeholder='Password'
           value = {password}
@@ -59,26 +58,18 @@ function LoginScreen ({navigation}) {
 
     <View style = {styles.buttonContainer}>
         <TouchableOpacity
-           onPress={handleLogin}
+           onPress={handleRegister}
            style= {styles.button}
         >
-          <Text style = {styles.buttonText}>Login</Text>  
+          <Text style = {styles.buttonText}>Register</Text>  
         </TouchableOpacity>
-
-        <TouchableOpacity
-           onPress={() => navigation.navigate('Register')}
-           style= {[styles.button, styles.buttonOutline]}
-        >
-          <Text style = {styles.buttonOutlineText}>Register</Text>  
-        </TouchableOpacity>
-
     </View>
     </ImageBackground>
     </KeyboardAvoidingView>
   )
 }
 
-export default LoginScreen
+export default RegisterScreen
 
 const styles = StyleSheet.create({
     container:{
