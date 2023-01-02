@@ -5,10 +5,11 @@
   import React, { useRef, useState } from 'react';
   import MapView, {Marker} from 'react-native-maps';
   import MapViewDirections from 'react-native-maps-directions'
-
+  import dacia from '../assets/dacia.png'
   
-  function MapScreen(){
-
+  export const ContextCoordinate = React.createContext();
+  function MapScreen({navigation}){
+  
     const [state, setState] = useState({
         pickupCords: {
               latitude: 45.748871,
@@ -24,24 +25,26 @@
          }
 
     })
-    const { pickupCords, droplocationCords} = state
+  
     return (
+      <ContextCoordinate.Provider value={{state, setState}}>
       <View style={styles.container}>
           <MapView
            style={styles.map}
-           initialRegion={pickupCords}
+           initialRegion={state.pickupCords}
          >
          <Marker
-           coordinate={pickupCords}
+           coordinate={state.pickupCords}
+           image = {dacia}
          />
          <Marker
-           coordinate={droplocationCords}
+           coordinate={state.droplocationCords}
          />
          <MapViewDirections
-           origin={pickupCords}
-           destination={droplocationCords}
+           origin={state.pickupCords}
+           destination={state.droplocationCords}
            apikey = {`AIzaSyAIhY8_TW5tlV1-TH6aFmhLtqWETzYOIww`}
-           strokeWidth={7}
+           strokeWidth={5}
            strokeColor="red"
          />
          </MapView>
@@ -54,6 +57,7 @@
             </TouchableOpacity>
          </View>
       </View>
+      </ContextCoordinate.Provider>
       
     )
   }

@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome";
 import React from 'react'
-import {Context} from '../App'
+import {LoginContext} from '../App'
 import { useContext } from 'react';
 
 
 const AccountScreen = () => {
-    const context = useContext(Context);
+    const context = useContext(LoginContext);
     return (
     <View style={styles.container}>
         <ImageBackground source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/30/16/planning-summer-vacations-travel-by-car-vector-18923016.jpg'}} resizeMode="stretch" style={styles.image}>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, ImageBackground, StyleSheet, TextInput, FlatList, Image, TouchableOpacity, Keyboard, Pressable } from 'react-native'
-
-function ClientSearchScreen() {
+import { ContextCoordinate } from './MapScreen';
+import { useContext } from 'react';
+function ClientSearchScreen({navigation}) {
   const [text, changeText] = useState('');
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
+  const contextcoordonate= useContext(ContextCoordinate);
  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -50,7 +51,10 @@ function ClientSearchScreen() {
   ];
   
   const Driver = ({ item }) => (
-    <Pressable style={styles.driver} onLongPress={() => console.log("Pressed view!")}>
+    <Pressable style={styles.driver} onLongPress={() => {
+      console.log("Pressed view!");
+      navigation.navigate('Map')
+    }}>
       <Image source={{uri: item.pictureUrl}} style={{height: 80, width: 130, borderRadius: 10}} resizeMode='stretch'></Image>
       <View style={styles.driverDetails}>
         <Text style={styles.description}>Arrival: {item.time}</Text>

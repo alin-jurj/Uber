@@ -1,4 +1,5 @@
 const passanger = require('../models/Passanger')
+const driver = require('../models/Driver')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const express = require('express');
@@ -15,7 +16,10 @@ const loginUser = async(req, res) => {
     var user = await passanger.findOne({username:username});
 
     if(!user)
-        return res.status(400).send('Username is wrong.');
+         user = await driver.findOne({username:username});
+    else
+        if(!user)    
+            return res.status(400).send('Username is wrong.');
 
     const validPassword = await bcrypt.compare(password, user.password);
 
@@ -24,6 +28,8 @@ const loginUser = async(req, res) => {
     
     if (user instanceof passanger)
         role  = 'Passanger'
+    if (user instanceof driver)
+        role = 'Driver'
 
     const token = jwt.sign({_id: user._id, role: role, username: username, email: user.email}, process.env.TOKEN_SECRET)
 

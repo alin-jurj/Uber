@@ -13,5 +13,8 @@ mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifi
 
 app.use(express.json())
 const userRoutes = require('./routes/userRoutes')
+const CarRoutes = require('./routes/CarRoutes')
+
 app.use('/user',userRoutes);
+app.use('/car',CarRoutes)
 

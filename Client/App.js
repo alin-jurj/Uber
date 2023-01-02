@@ -15,14 +15,14 @@ import React from 'react';
 import { useState } from 'react';
 
 const Stack = createNativeStackNavigator();
-export const Context = React.createContext();
+export const LoginContext = React.createContext();
 export default function App() {
   const [loginDetails,setloginDetails] = useState('');
 
   return (
    
     <NavigationContainer>
-    <Context.Provider value={{loginDetails,setloginDetails}}>
+    <LoginContext.Provider value={{loginDetails,setloginDetails}}>
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen options = {{headerShown: false}} name="Driver" component={DriverScreen} />
       <Stack.Screen options = {{headerShown: false}} name="ClientSearch" component={ClientSearchScreen} />
@@ -35,7 +35,7 @@ export default function App() {
     </Stack.Navigator>
     {loginDetails!='' && <NavBar />} 
     
-    </Context.Provider>
+    </LoginContext.Provider>
   </NavigationContainer>
   
   );

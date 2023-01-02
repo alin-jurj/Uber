@@ -1,7 +1,6 @@
 import { KeyboardAvoidingView,ImageBackground, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 
-
 function RegisterScreen  ({navigation}) {
     
     const [email, setEmail]  = useState('')
