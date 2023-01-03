@@ -3,13 +3,15 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import React from 'react'
 import {LoginContext} from '../App'
 import { useContext } from 'react';
+import { BackgroundContext } from '../App';
 
 
 const AccountScreen = () => {
     const context = useContext(LoginContext);
+    const backGroundContext = useContext(BackgroundContext);
     return (
     <View style={styles.container}>
-        <ImageBackground source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/30/16/planning-summer-vacations-travel-by-car-vector-18923016.jpg'}} resizeMode="stretch" style={styles.image}>
+        <ImageBackground source={{uri: backGroundContext.background}} resizeMode="stretch" style={styles.image}>
             <View style={{height: 100, width: 100, backgroundColor: 'white', borderRadius: 50}}>
                 <Icon name="user-circle-o" color={'#3656A9'} size={100}></Icon>
             </View>

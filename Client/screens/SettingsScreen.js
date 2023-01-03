@@ -7,6 +7,17 @@ function SettingsScreen() {
 
     const navigation = useNavigation();
 
+    const selectSetting = id => {
+        if(id == 1){
+            navigation.navigate('BackgroundScreen');
+        }
+        else if(id == 4){
+            navigation.navigate('AddCarScreen');
+        }else{
+            navigation.navigate('NotImplemented');
+        }
+    }
+
     const DATA = [
         {
             id: 1,
@@ -22,15 +33,15 @@ function SettingsScreen() {
         },
         {
             id: 4,
-            title: 'Privacy'
+            title: 'Add car'
         },
         {
             id: 5,
-            title: 'Terms of Service'
+            title: 'Privacy'
         },
         {
             id: 6,
-            title: 'Rate the app'
+            title: 'Terms of Service'
         }
     ]
 
@@ -41,7 +52,7 @@ function SettingsScreen() {
     );
 
     const Driver = ({ item }) => (
-        <View style={styles.settingContainer} onTouchEnd={() => navigation.navigate('NotImplemented')}>
+        <View style={styles.settingContainer} onTouchEnd={() => selectSetting(item.id)}>
             <Text style={styles.settingText}>{item.title}</Text>
             <Icon name="chevron-right" color={'#3656A9'} size={20} style={{marginRight: 50}}></Icon>
         </View>

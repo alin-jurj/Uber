@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Text, View, ImageBackground, StyleSheet, TextInput, FlatList, Image, TouchableOpacity, Keyboard, Pressable } from 'react-native'
 import { ContextCoordinate } from './MapScreen';
 import { useContext } from 'react';
+import { BackgroundContext } from '../App';
+
 function ClientSearchScreen({navigation}) {
   const [text, changeText] = useState('');
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const contextcoordonate= useContext(ContextCoordinate);
+  const backGroundContext = useContext(BackgroundContext);
+
  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -67,7 +71,7 @@ function ClientSearchScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-        <ImageBackground source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/30/16/planning-summer-vacations-travel-by-car-vector-18923016.jpg'}} resizeMode="stretch" style={styles.image}>
+        <ImageBackground source={{uri: backGroundContext.background}} resizeMode="stretch" style={styles.image}>
             <TextInput style={styles.input} placeholder="Search for a destination..." placeholderTextColor={'grey'} onChangeText={changeText} value={text}></TextInput>
             {text != '' &&
               <View 

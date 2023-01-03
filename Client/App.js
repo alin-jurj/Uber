@@ -13,16 +13,21 @@ import AccountScreen from './screens/AccountScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import React from 'react';
 import { useState } from 'react';
+import AddCarScreen from './screens/AddCarScreen';
+import BackgroundScreen from './screens/BackgroundScreen';
 
 const Stack = createNativeStackNavigator();
 export const LoginContext = React.createContext();
+export const BackgroundContext = React.createContext();
 export default function App() {
   const [loginDetails,setloginDetails] = useState('');
+  const [background, setBackground] = useState('https://cdn2.vectorstock.com/i/1000x1000/30/16/planning-summer-vacations-travel-by-car-vector-18923016.jpg');
 
   return (
    
     <NavigationContainer>
     <LoginContext.Provider value={{loginDetails,setloginDetails}}>
+    <BackgroundContext.Provider value={{background, setBackground}}>
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen options = {{headerShown: false}} name="Driver" component={DriverScreen} />
       <Stack.Screen options = {{headerShown: false}} name="ClientSearch" component={ClientSearchScreen} />
@@ -32,9 +37,11 @@ export default function App() {
       <Stack.Screen options = {{headerShown: false}} name="Map" component={MapScreen} />
       <Stack.Screen options = {{headerShown: false}} name="Account" component={AccountScreen} />
       <Stack.Screen options = {{headerShown: false}} name="NotImplemented" component={NotYetImplemented}/>
+      <Stack.Screen options = {{headerShown: false}} name="AddCarScreen" component={AddCarScreen}/>
+      <Stack.Screen options = {{headerShown: false}} name="BackgroundScreen" component={BackgroundScreen}/>
     </Stack.Navigator>
     {loginDetails!='' && <NavBar />} 
-    
+    </BackgroundContext.Provider>
     </LoginContext.Provider>
   </NavigationContainer>
   
