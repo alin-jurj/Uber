@@ -1,7 +1,11 @@
 import React from 'react'
 import { Text, ImageBackground, Image, View, FlatList, TouchableOpacity, StyleSheet, Pressable  } from 'react-native'
+import { useContext } from 'react';
+import { BackgroundContext } from '../App';
 
 function DriverScreen() {
+
+  const backGroundContext = useContext(BackgroundContext);
 
     const DATA = [
         {
@@ -54,7 +58,7 @@ function DriverScreen() {
 
   return (
     <View style={styles.container}>
-        <ImageBackground source={{uri: 'https://cdn2.vectorstock.com/i/1000x1000/30/16/planning-summer-vacations-travel-by-car-vector-18923016.jpg'}} resizeMode="stretch" style={styles.image}>
+        <ImageBackground source={{uri: backGroundContext.background}} resizeMode="stretch" style={styles.image}>
               <View style={{height: DATA.length * 104, maxHeight: 420, justifyContent: 'center', alignItems: 'center'}}>
               <FlatList data={DATA}
                 renderItem={({item}) => <Client item={item} />}

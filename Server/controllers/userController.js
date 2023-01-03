@@ -9,6 +9,12 @@ const getPassangers = async(req, res) => {
 
     res.status(200).json(passangers);
 };
+
+const getDrivers = async(req, res) => {
+    const drivers = await drivers.find()
+
+    res.status(200).json(drivers);
+};
 const loginUser = async(req, res) => {
   
     const { username, password} = req.body;
@@ -40,7 +46,7 @@ const loginUser = async(req, res) => {
     }
 };
 
-const signup = async(req,res) => {
+const signupPassenger = async(req,res) => {
     const { username, email, password, token} =  await req.body;
 
     const salt = await bcrypt.genSalt(10);
@@ -68,8 +74,39 @@ const signup = async(req,res) => {
         console.log(error);
     }
 };
+
+const signupDriver = async(req,res) => {
+    const { username, email, password, pictureUrl, token} =  await req.body;
+
+    const salt = await bcrypt.genSalt(10);
+    const encryptedPassword = await bcrypt.hash(password,salt)
+
+    try{
+        const oldUser = await driver.findOne({username:username});
+
+        if(oldUser){
+            res.send({error:"User Exists"});
+        }
+        else
+            {       
+                await driver.create({
+                    username,
+                    email,
+                    password: encryptedPassword,
+                    pictureUrl,
+                    token
+                    });
+                res.send({status: "ok"});
+            }
+    }catch(error){
+        
+        res.send({status:"error"});
+        console.log(error);
+    }
+};
 module.exports = {
     loginUser,
     getPassangers,
-    signup
+    signupPassenger,
+    signupDriver
 };

@@ -5,10 +5,15 @@ import RegisterScreen from './RegisterScreen';
 import jwt_decode from "jwt-decode";
 import {LoginContext} from '../App'
 import { useContext } from 'react';
+import { BackgroundContext } from '../App';
+
 const Stack = createNativeStackNavigator();
+
 function LoginScreen ({navigation}) {
 
     const logincontext = useContext(LoginContext); 
+    const backGroundContext = useContext(BackgroundContext);
+
     const [username, setusername]  = useState('')
     const [password, setPassword]  = useState('')
     
@@ -48,7 +53,7 @@ function LoginScreen ({navigation}) {
      style={styles.container}
      behavior="padding"
      >
-     <ImageBackground source={{uri:"https://cdn2.vectorstock.com/i/1000x1000/30/16/planning-summer-vacations-travel-by-car-vector-18923016.jpg"}} resizeMode="stretch" style={[styles.image,styles.container]}>
+     <ImageBackground source={{uri: backGroundContext.background}} resizeMode="stretch" style={[styles.image,styles.container]}>
     <View style = {styles.inputContainer}>
         <TextInput
           placeholder='Username'
@@ -137,6 +142,6 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "center",
       width:410,
-      height:700,
+      height:900,
     }
 })
