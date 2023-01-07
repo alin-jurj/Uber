@@ -44,6 +44,7 @@ const AddCarScreen = () => {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            height:'50px'
           });
       
           console.log(result);

@@ -15,17 +15,23 @@ import React from 'react';
 import { useState } from 'react';
 import AddCarScreen from './screens/AddCarScreen';
 import BackgroundScreen from './screens/BackgroundScreen';
+import MapPreview from './screens/MapPreview';
 
 const Stack = createNativeStackNavigator();
 export const LoginContext = React.createContext();
 export const BackgroundContext = React.createContext();
+export const ContextCoordinate = React.createContext();
+export const ChosenVehicleContext = React.createContext();
 export default function App() {
   const [loginDetails,setloginDetails] = useState('');
   const [background, setBackground] = useState('https://cdn2.vectorstock.com/i/1000x1000/30/16/planning-summer-vacations-travel-by-car-vector-18923016.jpg');
-
+  const [coordinate, setcoordinate] = useState();
+  const [ChosenVehicle, setChosenVehicle] = useState();
   return (
    
     <NavigationContainer>
+    <ChosenVehicleContext.Provider value = {{ChosenVehicle, setChosenVehicle}}>
+    <ContextCoordinate.Provider value={{coordinate,setcoordinate}}>
     <LoginContext.Provider value={{loginDetails,setloginDetails}}>
     <BackgroundContext.Provider value={{background, setBackground}}>
     <Stack.Navigator initialRouteName='Login'>
@@ -35,6 +41,7 @@ export default function App() {
       <Stack.Screen options = {{headerShown: false}} name="Login" component={LoginScreen} />
       <Stack.Screen options = {{headerShown:false}} name="Register" component={RegisterScreen} />
       <Stack.Screen options = {{headerShown: false}} name="Map" component={MapScreen} />
+      <Stack.Screen options = {{headerShown: false}} name="MapPreview" component={MapPreview} />
       <Stack.Screen options = {{headerShown: false}} name="Account" component={AccountScreen} />
       <Stack.Screen options = {{headerShown: false}} name="NotImplemented" component={NotYetImplemented}/>
       <Stack.Screen options = {{headerShown: false}} name="AddCarScreen" component={AddCarScreen}/>
@@ -43,6 +50,8 @@ export default function App() {
     {loginDetails!='' && <NavBar />} 
     </BackgroundContext.Provider>
     </LoginContext.Provider>
+    </ContextCoordinate.Provider>
+    </ChosenVehicleContext.Provider>
   </NavigationContainer>
   
   );

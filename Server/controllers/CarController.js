@@ -20,14 +20,17 @@ const addCar = async(req, res) => {
 
 }
 const getCar = async(req, res) => {
-    try{
-        const car = await car.findById(req.params.id);
-        if (!car)
-            throw new Error;
-        res.status(200).json(car);
-    } catch (error) {
-        res.status(404).json({message: error});
-    }
+    // try{
+    //     const car = await car.findById(req.params.id);
+    //     if (!car)
+    //         throw new Error;
+    //     res.status(200).json(car);
+    // } catch (error) {
+    //     res.status(404).json({message: error});
+    // }
+    const cars = await car.find()
+
+    res.status(200).json(cars);
 };
 module.exports = {
     addCar,

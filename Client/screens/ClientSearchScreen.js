@@ -1,16 +1,54 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, ImageBackground, StyleSheet, TextInput, FlatList, Image, TouchableOpacity, Keyboard, Pressable } from 'react-native'
-import { ContextCoordinate } from './MapScreen';
+
 import { useContext } from 'react';
 import { BackgroundContext } from '../App';
+import * as Location from 'expo-location';
+import { LoginContext } from '../App';
+import { ContextCoordinate } from '../App';
+import { ChosenVehicleContext } from '../App';
+
+
 
 function ClientSearchScreen({navigation}) {
   const [text, changeText] = useState('');
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const contextcoordonate= useContext(ContextCoordinate);
+  const logincontext = useContext(LoginContext)
+  const [datta, setdatta] = useState('')
+  const [location, setlocation] = useState('')
   const backGroundContext = useContext(BackgroundContext);
+  const chosenVehicleContext = useContext(ChosenVehicleContext);
+  const date = new Date();
 
+  async function getLocation() {
+
+    let { status } = await Location.requestForegroundPermissionsAsync();
+
+    if (status !== 'granted') {
+      console.log('Permission to access location was denied');
+      }
+
+  let location = await Location.getCurrentPositionAsync({});
+
+  console.log(location);
+  
+  setlocation(location);
+  contextcoordonate.setcoordinate(location.coords);
+
+  }
  useEffect(() => {
+
+    getLocation();
+
+    fetch("http://10.0.2.2:8000/car/")
+    .then(res => res.json())
+    .then(data => {
+     //console.log(data)
+      setdatta(data)
+    }).catch(error => console.log(error))
+
+   
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -55,17 +93,21 @@ function ClientSearchScreen({navigation}) {
   ];
   
   const Driver = ({ item }) => (
+    
     <Pressable style={styles.driver} onLongPress={() => {
       console.log("Pressed view!");
-      navigation.navigate('Map')
+      chosenVehicleContext.setChosenVehicle(item)
+      navigation.navigate('MapPreview');
     }}>
-      <Image source={{uri: item.pictureUrl}} style={{height: 80, width: 130, borderRadius: 10}} resizeMode='stretch'></Image>
+      {console.log(item?.pictureUrl)}
+      <Image source={{uri: item?.pictureUrl}} style={{height: 80, width: 130, borderRadius: 10}} resizeMode='stretch'></Image>
       <View style={styles.driverDetails}>
-        <Text style={styles.description}>Arrival: {item.time}</Text>
-        <Text style={styles.description}>Category: {item.category}</Text>
-        <Text style={styles.description}>Price: {item.price}</Text>
+        
+        <Text style={styles.description}>Arrival: {date.getHours()}:{date.getMinutes()+20}</Text>
+        <Text style={styles.description}>Category: {item?.category}</Text>
+        <Text style={styles.description}>Price: {item?.price} RON/KM</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => console.log("pressed button!")}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Map')}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
     </Pressable>
   );
 
@@ -81,9 +123,10 @@ function ClientSearchScreen({navigation}) {
                   alignItems: 'center',
                   marginBottom: isKeyboardVisible ? 200 : 0
                 }}>
-                <FlatList data={DATA}
+                
+                <FlatList data={datta}
                   renderItem={({item}) => <Driver item={item} />}
-                  keyExtractor={item => item.id} />
+                  keyExtractor={item => item._id }/>
               </View>
             }
             

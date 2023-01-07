@@ -19,6 +19,5 @@ const userSchema = new Schema({
     }
     // avatar: Buffer,
 });
-
 //export default mongoose.model("Passanger",userSchema);
 module.exports = mongoose.model('Passanger', userSchema)

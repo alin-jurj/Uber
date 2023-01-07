@@ -1,11 +1,12 @@
 import { Image, View, Text, StyleSheet, Keyboard } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from '@react-navigation/native';
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useContext } from "react";
+import { LoginContext } from "../App";
 
 function NavBar() {
     
+    const logincontext = useContext(LoginContext) 
     const navigation = useNavigation();
 
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -31,7 +32,10 @@ function NavBar() {
   }, []);
 
     const goToHomeScreen = () => {
-        navigation.navigate('ClientSearch');
+        if(logincontext.loginDetails.role == "Passanger")
+          navigation.navigate('ClientSearch');
+        else
+        navigation.navigate('Driver');
         setCurrentScreen({homeScreen: true, settingsScreen: false, accountScreen: false});
     }
 
