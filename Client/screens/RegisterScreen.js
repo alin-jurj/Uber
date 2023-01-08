@@ -12,7 +12,7 @@ function RegisterScreen  ({navigation}) {
     const [username, setusername]  = useState('')
     const [password, setPassword]  = useState('')
     const [role, setRole] = useState('Passenger');
-    const [photo, setPhoto] = useState(null);
+    const [pictureUrl, setPhoto] = useState(null);
     
     let handleRegisterPassenger = () =>{
       fetch("http://10.0.2.2:8000/user/signupPassenger",{
@@ -23,7 +23,8 @@ function RegisterScreen  ({navigation}) {
         body:JSON.stringify({
             username,
             email,
-            password
+            password,
+            pictureUrl
         })
       })
       .then(res=>res.text())
@@ -44,7 +45,7 @@ function RegisterScreen  ({navigation}) {
             username,
             email,
             password,
-            pictureUrl: photo
+            pictureUrl
         })
       })
       .then(res=>res.text())
@@ -100,19 +101,33 @@ function RegisterScreen  ({navigation}) {
           style = {styles.input}
           secureTextEntry
           />
-          {role == 'Driver' &&
+          {role == 'Driver' ?
           <>
-          {photo != null &&
+          {pictureUrl != null &&
             <View style={{backgroundColor: 'white', borderRadius: 20, marginTop: 5, flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 15}}>
               <Text style={{color: 'grey'}}>Chosen image: </Text>
-              <Image source={{uri: photo}} style={{width: 100, height: 40, borderRadius: 5}}></Image>
+              <Image source={{uri: pictureUrl}} style={{width: 100, height: 40, borderRadius: 5}}></Image>
             </View>
           }
             <TouchableOpacity style={styles.uploadButton}  onPress={() => uploadImage()}>
               <Icon name="upload" color={'grey'} size={25}></Icon>
-              <Text style={{marginLeft: 5, color: 'grey'}}>{photo == null ? 'Upload driving license...' : 'Choose another image...'}</Text>
+              <Text style={{marginLeft: 5, color: 'grey'}}>{pictureUrl == null ? 'Upload driving license...' : 'Choose another image...'}</Text>
             </TouchableOpacity>
           </>
+          :
+          <>
+          {pictureUrl != null &&
+            <View style={{backgroundColor: 'white', borderRadius: 20, marginTop: 5, flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 15}}>
+              <Text style={{color: 'grey'}}>Chosen image: </Text>
+              <Image source={{uri: pictureUrl}} style={{width: 100, height: 40, borderRadius: 5}}></Image>
+            </View>
+          }
+            <TouchableOpacity style={styles.uploadButton}  onPress={() => uploadImage()}>
+              <Icon name="upload" color={'grey'} size={25}></Icon>
+              <Text style={{marginLeft: 5, color: 'grey'}}>{pictureUrl == null ? 'Upload profile picture...' : 'Choose another image...'}</Text>
+            </TouchableOpacity>
+          </>
+          
           }
         </View>
 

@@ -6,15 +6,46 @@
   import MapView, {Marker} from 'react-native-maps';
   import MapViewDirections from 'react-native-maps-directions'
   import dacia from '../assets/dacia.png'
-  import { ContextCoordinate } from '../App';
+  import { ContextCoordinate, LoginContext } from '../App';
   import { useContext } from 'react';
   import { ChosenVehicleContext } from '../App';
+  import {getDistance} from 'geolib';
   
   function MapScreen({navigation}){
     const contextcoordonate = useContext(ContextCoordinate);
     const chosenVehicleContext = useContext(ChosenVehicleContext);
+    const loginContext = useContext(LoginContext);
     const [isloading,setisloading] = useState(true);
+
+    let distance =   getDistance(
+      {latitude: contextcoordonate.coordinate.latitude, longitude: contextcoordonate.coordinate.longitude},
+      {latitude:45.925815, longitude:20.890289 }
+  ); 
+
+     
+  function addRequest() {
+    fetch("http://10.0.2.2:8000/request/add",{
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+            passengerPicture: loginContext.loginDetails.pictureUrl,
+            passengerUsername: loginContext.loginDetails.username,
+            requestCategory: chosenVehicleContext.category,
+            distance: distance
+        })
+      })
+      .then(res=>res.text())
+      .then( data=>{
+        data = JSON.parse(data);
+        
+        console.log(data.status);
+      }).catch(error =>console.log(error))
+  }
+
     useEffect (() => {
+      addRequest();
       console.log("I'm appearing instantly");
       setTimeout(() => {
         setisloading(false);

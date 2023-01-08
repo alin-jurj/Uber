@@ -1,11 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, ImageBackground, Image, View, FlatList, TouchableOpacity, StyleSheet, Pressable  } from 'react-native'
-import { useContext } from 'react';
-import { BackgroundContext } from '../App';
+import { useContext, useEffect } from 'react';
+import { BackgroundContext, LoginContext } from '../App';
 
 function DriverScreen() {
 
   const backGroundContext = useContext(BackgroundContext);
+  const logincontext = useContext(LoginContext);
+  const [users, setUsers] = useState();
+
+  useEffect(() => {
+    // fetch("http://10.0.2.2:8000/user/")
+    // .then(res => res.json())
+    // .then(data => {
+    //  //console.log(data)
+    //   setUsers(data)
+    // }).catch(error => console.log(error))
+    // console.log(logincontext.loginDetails)
+    // fetch("http://10.0.2.2:8000/request/update?id=" + logincontext.loginDetails._id ,{
+    //       method: "PUT",
+    //       headers: {
+    //           'Content-Type': 'application/json'
+    //       },
+    //     })
+    //     .then(res=>res.text())
+    //     .then( data=>{
+    //       console.log(data);
+    //     }).catch(error =>console.error(error))
+    fetch("http://10.0.2.2:8000/request")
+    .then(res => res.json())
+    .then(data => {
+     //console.log(data)
+      setUsers(data)
+    }).catch(error => console.log(error))
+    console.log(logincontext.loginDetails)
+  }, [])
 
     const DATA = [
         {
@@ -37,19 +66,19 @@ function DriverScreen() {
 
     const Client = ({ item }) => (
         <Pressable style={styles.driver} onLongPress={() => console.log("pressed view!")}>
-          {item.pictureUrl != '' &&
-            <Image source={{uri: item.pictureUrl}} style={{height: 85, width: 85, borderRadius: 50, borderWidth: 1, borderColor: '#0D0B84'}} ></Image>
+          {typeof item.passengerPicture == 'string' &&
+            <Image source={{uri: item.passengerPicture}} style={{height: 85, width: 85, borderRadius: 50, borderWidth: 1, borderColor: '#0D0B84'}} ></Image>
           }
           {
-            item.pictureUrl == '' &&
+            typeof item.passengerPicture != 'string' &&
             <View style={{height: 85, width: 85, borderRadius: 50, borderWidth: 1, backgroundColor: '#0D0B84', justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{fontSize: 36, color: 'white'}}>{item.initials}</Text>
+                <Text style={{fontSize: 36, color: 'white'}}>{item.passengerUsername.slice(0,2)}</Text>
             </View>
           }
           
           <View style={styles.driverDetails}>
-            <Text style={styles.description}>From: 11th street</Text>
-            <Text style={styles.description}>To: 13th street</Text>
+            <Text style={styles.description}>From: Lovrin</Text>
+            <Text style={styles.description}>To: Sandra</Text>
             <Text style={styles.description}>Distance: 2.4km</Text>
           </View>
           <TouchableOpacity style={styles.button} onPress={() => console.log("pressed button!")}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
@@ -60,7 +89,7 @@ function DriverScreen() {
     <View style={styles.container}>
         <ImageBackground source={{uri: backGroundContext.background}} resizeMode="stretch" style={styles.image}>
               <View style={{height: DATA.length * 104, maxHeight: 420, justifyContent: 'center', alignItems: 'center'}}>
-              <FlatList data={DATA}
+              <FlatList data={users}
                 renderItem={({item}) => <Client item={item} />}
                 keyExtractor={item => item.id} />
               </View>

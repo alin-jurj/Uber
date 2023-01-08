@@ -39,6 +39,7 @@ function ClientSearchScreen({navigation}) {
   }
  useEffect(() => {
 
+  console.log(logincontext.loginDetails)
     getLocation();
 
     fetch("http://10.0.2.2:8000/car/")
@@ -107,7 +108,7 @@ function ClientSearchScreen({navigation}) {
         <Text style={styles.description}>Category: {item?.category}</Text>
         <Text style={styles.description}>Price: {item?.price} RON/KM</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Map')}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => {addRequest(item?.category);navigation.navigate('Map')}}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
     </Pressable>
   );
 

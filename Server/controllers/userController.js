@@ -14,7 +14,7 @@ const getDrivers = async(req, res) => {
     const drivers = await drivers.find()
 
     res.status(200).json(drivers);
-};
+}; 
 const loginUser = async(req, res) => {
   
     const { username, password} = req.body;
@@ -37,7 +37,7 @@ const loginUser = async(req, res) => {
     if (user instanceof driver)
         role = 'Driver'
 
-    const token = jwt.sign({_id: user._id, role: role, username: username, email: user.email}, process.env.TOKEN_SECRET)
+    const token = jwt.sign({_id: user._id, role: role, username: username, email: user.email, pictureUrl: user.pictureUrl}, process.env.TOKEN_SECRET)
 
     try{
         res.header('auth-token',token).status(200).send(token);
@@ -47,7 +47,7 @@ const loginUser = async(req, res) => {
 };
 
 const signupPassenger = async(req,res) => {
-    const { username, email, password, token} =  await req.body;
+    const { username, email, password, pictureUrl ,token} =  await req.body;
 
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(password,salt)
@@ -64,6 +64,7 @@ const signupPassenger = async(req,res) => {
                     username,
                     email,
                     password: encryptedPassword,
+                    pictureUrl,
                     token
                     });
                 res.send({status: "ok"});
