@@ -50,8 +50,8 @@
       setTimeout(() => {
         setisloading(false);
         fetch("http://10.0.2.2:8000/request/getWithCar?username="+loginContext.loginDetails.username)
-        .then(res => {if(!res.ok) throw new Error()}) //{if(res.json().status == 404) navigation.navigate('ClientSearch')})
-        .then(res => res.json())
+        .then(res => {if(!res.ok) throw new Error(); else res.json()}) //{if(res.json().status == 404) navigation.navigate('ClientSearch')})
+        .then(data => console.log(data))
         .catch(error => {navigation.navigate('ClientSearch');console.log('me gusta')})
       setTimeout(() => {
         console.log('I am appearing...', 'After 5 seconds!');

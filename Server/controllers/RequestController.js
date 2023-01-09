@@ -36,7 +36,7 @@ const addRequest = async(req, res) => {
 
 const updateRequest = async(req, res) => {
     const id = req.query.id;
-    const {driverUsername} = req.body;
+    const driverUsername = req.query.username;
     try
     {
         await request.updateOne({id: id}, {$set: {driverUsername: driverUsername}})

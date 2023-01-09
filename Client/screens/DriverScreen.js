@@ -3,12 +3,25 @@ import { Text, ImageBackground, Image, View, FlatList, TouchableOpacity, StyleSh
 import { useContext, useEffect } from 'react';
 import { BackgroundContext, LoginContext } from '../App';
 
+
 function DriverScreen() {
 
   const backGroundContext = useContext(BackgroundContext);
   const logincontext = useContext(LoginContext);
   const [users, setUsers] = useState();
 
+  const UpdateDriverRequest = () => {
+    fetch("http://10.0.2.2:8000/request/update?id=" + users[0]._id + "&username=" + logincontext.loginDetails.username,{
+          method: "PUT",
+          headers: {
+              'Content-Type': 'application/json'
+          },
+        })
+        .then(res=>res.text())
+        .then( data=>{
+          console.log(data);
+        }).catch(error =>console.error(error))
+  }
   useEffect(() => {
     // fetch("http://10.0.2.2:8000/user/")
     // .then(res => res.json())
@@ -81,7 +94,7 @@ function DriverScreen() {
             <Text style={styles.description}>To: Sandra</Text>
             <Text style={styles.description}>Distance: 2.4km</Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => console.log("pressed button!")}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => { UpdateDriverRequest();console.log("pressed button!")}}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
         </Pressable>
       );
 
