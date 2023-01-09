@@ -39,9 +39,9 @@ function ClientSearchScreen({navigation}) {
   }
  useEffect(() => {
 
-  console.log(logincontext.loginDetails)
+  //console.log(logincontext.loginDetails)
     getLocation();
-
+    console.log(location);
     fetch("http://10.0.2.2:8000/car/")
     .then(res => res.json())
     .then(data => {
@@ -100,7 +100,7 @@ function ClientSearchScreen({navigation}) {
       chosenVehicleContext.setChosenVehicle(item)
       navigation.navigate('MapPreview');
     }}>
-      {console.log(item?.pictureUrl)}
+      {/* {console.log(item?.pictureUrl)} */}
       <Image source={{uri: item?.pictureUrl}} style={{height: 80, width: 130, borderRadius: 10}} resizeMode='stretch'></Image>
       <View style={styles.driverDetails}>
         
@@ -108,7 +108,7 @@ function ClientSearchScreen({navigation}) {
         <Text style={styles.description}>Category: {item?.category}</Text>
         <Text style={styles.description}>Price: {item?.price} RON/KM</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => {addRequest(item?.category);navigation.navigate('Map')}}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => {chosenVehicleContext.setChosenVehicle(item);navigation.navigate('Map')}}><Text style={{color: 'white', fontSize: 12}}>Choose</Text></TouchableOpacity>
     </Pressable>
   );
 

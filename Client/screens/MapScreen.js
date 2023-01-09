@@ -23,7 +23,7 @@
   ); 
 
      
-  function addRequest() {
+    function addRequest() {
     fetch("http://10.0.2.2:8000/request/add",{
         method: "POST",
         headers: {
@@ -32,7 +32,7 @@
         body:JSON.stringify({
             passengerPicture: loginContext.loginDetails.pictureUrl,
             passengerUsername: loginContext.loginDetails.username,
-            requestCategory: chosenVehicleContext.category,
+            requestCategory: chosenVehicleContext.ChosenVehicle.category,
             distance: distance
         })
       })
@@ -49,7 +49,10 @@
       console.log("I'm appearing instantly");
       setTimeout(() => {
         setisloading(false);
-
+        fetch("http://10.0.2.2:8000/request/getWithCar?username="+loginContext.loginDetails.username)
+        .then(res => {if(!res.ok) throw new Error()}) //{if(res.json().status == 404) navigation.navigate('ClientSearch')})
+        .then(res => res.json())
+        .catch(error => {navigation.navigate('ClientSearch');console.log('me gusta')})
       setTimeout(() => {
         console.log('I am appearing...', 'After 5 seconds!');
         setstate ( {
@@ -150,7 +153,10 @@
                  }
                   })
                   setTimeout(() => {
-                       navigation.navigate('ClientSearch') 
+                       navigation.navigate('ClientSearch')
+                       //remove request 
+                       fetch('http://10.0.2.2:8000/request/delete?id=' + loginContext.loginDetails.username, { method: 'DELETE' })
+                      .then(() => console.log('deleted')).catch((error)=>console.log(error))
                   }, 2000);
                 }, 5000);
               }, 5000);
@@ -160,7 +166,7 @@
 
        
       }, 5000);
-    }, 5000);
+    }, 15000);
       console.log(contextcoordonate.coordinate);
 
     
